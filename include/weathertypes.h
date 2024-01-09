@@ -2,13 +2,7 @@
 #ifndef WEATHERTYPES_H
 #define WEATHERTYPES_H
 
-// #include "heltec.h"
 #include "Arduino.h"
-// #include <WiFiManager.h>
-// #include <HTTPClient.h>
-// #include <ArduinoJson.h>
-// #include <LittleFS.h>
-// #include <FS.h>
 
 struct Coords
 {

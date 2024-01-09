@@ -1,10 +1,6 @@
-// #include "heltec.h"
 #include "Arduino.h"
-// #include <WiFiManager.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
-// #include <LittleFS.h>
-// #include <FS.h>
 #include "consts.h"
 #include "weathertypes.h"
 

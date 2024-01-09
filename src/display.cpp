@@ -1,16 +1,8 @@
 #include "heltec.h"
 #include "Arduino.h"
-// #include <WiFiManager.h>
-// #include <HTTPClient.h>
-// #include <ArduinoJson.h>
-// #include <LittleFS.h>
-// #include <FS.h>
 
 #include "consts.h"
-// #include "utils.h"
 #include "weathertypes.h"
-// #include "persist.h"
-// #include "owm_api.h"
 
 SSD1306Wire display(0x3c, SDA_OLED, SCL_OLED, RST_OLED);
 
