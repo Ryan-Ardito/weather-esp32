@@ -6,6 +6,32 @@
 
 SSD1306Wire display(0x3c, SDA_OLED, SCL_OLED, RST_OLED);
 
+void delayBlink(int duration_millis)
+{
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(duration_millis / 2);
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(duration_millis / 2);
+}
+
+void LedON(void)
+{
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, HIGH);
+}
+
+void VextON(void)
+{
+  pinMode(Vext, OUTPUT);
+  digitalWrite(Vext, LOW);
+}
+
+void VextOFF(void) // Vext default OFF
+{
+  pinMode(Vext, OUTPUT);
+  digitalWrite(Vext, HIGH);
+}
+
 void SetupDisplay(void)
 {
   display.init();
