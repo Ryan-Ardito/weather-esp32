@@ -1,9 +1,9 @@
-// TODO: Save more location info in a JSON file.
+// TODO: Invalid location string should notify the user and restart the config AP.
+// TODO: User can start the config AP manually
 
 #include "Arduino.h"
 #include <WiFiManager.h>
 
-#include "consts.h"
 #include "utils.h"
 #include "weathertypes.h"
 #include "persist.h"
@@ -11,6 +11,10 @@
 #include "display.h"
 #include "wifi.h"
 
+const int kSerialBaudRate = 115200;
+const int kRequestIntervalMillis = 10 * 60 * 1000;
+
+// Latitude and longitude to send to weather API
 Coords coords;
 
 void setup()
@@ -24,8 +28,7 @@ void setup()
   SetupDisplay();
   setupWifiConfig();
 
-  String location = readConfig();
-  coords = fetchLatLon(location);
+  coords = readCoords();
 }
 
 void loop()

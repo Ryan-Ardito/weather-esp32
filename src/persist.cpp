@@ -2,6 +2,8 @@
 #include <LittleFS.h>
 #include <FS.h>
 
+#include "owm_api.h"
+
 String readFile(fs::FS &fs, const char *path)
 {
   Serial.printf("Reading file: %s\r\n", path);
@@ -42,7 +44,7 @@ void writeFile(fs::FS &fs, const char *path, const char *message)
   file.close();
 }
 
-String readConfig(void)
+String readLocation(void)
 {
   if (!LittleFS.begin(true))
   {
@@ -54,5 +56,31 @@ String readConfig(void)
     Serial.println("LittleFS mount success");
   }
 
-  return readFile(LittleFS, "/data.txt");
+  return readFile(LittleFS, "/location.txt");
+}
+
+Coords readCoords(void)
+{
+  Coords coords;
+
+  if (!LittleFS.begin(true))
+  {
+    Serial.println("LittleFS mount failed");
+    return coords;
+  }
+  else
+  {
+    Serial.println("LittleFS mount success");
+  }
+
+  String coords_string = readFile(LittleFS, "/coords.txt");
+
+  // Find the position of the comma
+  int commaPos = coords_string.indexOf(',');
+
+  // Extract city and state substrings
+  coords.lat = coords_string.substring(0, commaPos);
+  coords.lon = coords_string.substring(commaPos + 1);
+
+  return coords;
 }

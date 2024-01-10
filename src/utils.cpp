@@ -1,6 +1,108 @@
 #include "Arduino.h"
 #include <ArduinoJson.h>
+
+#include <unordered_map>
+
 #include "weathertypes.h"
+
+String getStateFullName(const String &stateCode)
+{
+  // Define a mapping of 2-letter state codes to their full names
+  std::unordered_map<std::string, std::string> stateMap = {
+      {"al", "alabama"},
+      {"ak", "alaska"},
+      {"az", "arizona"},
+      {"ar", "arkansas"},
+      {"ca", "california"},
+      {"co", "colorado"},
+      {"ct", "connecticut"},
+      {"de", "delaware"},
+      {"fl", "florida"},
+      {"ga", "georgia"},
+      {"hi", "hawaii"},
+      {"id", "idaho"},
+      {"il", "illinois"},
+      {"in", "indiana"},
+      {"ia", "iowa"},
+      {"ks", "kansas"},
+      {"ky", "kentucky"},
+      {"la", "louisiana"},
+      {"me", "maine"},
+      {"md", "maryland"},
+      {"ma", "massachusetts"},
+      {"mi", "michigan"},
+      {"mn", "minnesota"},
+      {"ms", "mississippi"},
+      {"mo", "missouri"},
+      {"mt", "montana"},
+      {"ne", "nebraska"},
+      {"nv", "nevada"},
+      {"nh", "new Hampshire"},
+      {"nj", "new Jersey"},
+      {"nm", "new Mexico"},
+      {"ny", "new York"},
+      {"nc", "north Carolina"},
+      {"nd", "north Dakota"},
+      {"oh", "ohio"},
+      {"ok", "oklahoma"},
+      {"or", "oregon"},
+      {"pa", "pennsylvania"},
+      {"ri", "rhode Island"},
+      {"sc", "south Carolina"},
+      {"sd", "south Dakota"},
+      {"tn", "tennessee"},
+      {"tx", "texas"},
+      {"ut", "utah"},
+      {"vt", "vermont"},
+      {"va", "virginia"},
+      {"wa", "washington"},
+      {"wv", "west Virginia"},
+      {"wi", "wisconsin"},
+      {"wy", "wyoming"}
+      // Add more state codes and names as needed
+  };
+
+  // Convert the input state code to lowercase for case-insensitive comparison
+  String lowercaseStateCode = stateCode;
+  lowercaseStateCode.toLowerCase();
+
+  // Check if the state code is in the map
+  auto it = stateMap.find(lowercaseStateCode.c_str());
+  if (it != stateMap.end())
+  {
+    // Return the full name if found
+    return String(it->second.c_str());
+  }
+  else
+  {
+    // Return the original string if not a 2-letter state code
+    return stateCode;
+  }
+}
+
+String expandCityStateString(const String &cityState)
+{
+  // Convert the input string to lowercase
+  String lowercaseCityState = cityState;
+  lowercaseCityState.toLowerCase();
+
+  // Find the position of the comma
+  int commaPos = lowercaseCityState.indexOf(',');
+
+  // Extract city and state substrings
+  String city = lowercaseCityState.substring(0, commaPos);
+  String state = lowercaseCityState.substring(commaPos + 1);
+
+  // Remove whitespace from city and state
+  city.trim();
+  state.trim();
+
+  // Run the state through getStateFullName function
+  String fullState = getStateFullName(state);
+
+  // Concatenate the results with a comma
+  return city + "," + fullState;
+}
 
 String unixTimeToString(int unix_time, int zone_offset)
 {

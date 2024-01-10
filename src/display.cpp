@@ -1,10 +1,17 @@
 #include "heltec.h"
 #include "Arduino.h"
 
-#include "consts.h"
 #include "weathertypes.h"
+#include "wifi.h"
 
 SSD1306Wire display(0x3c, SDA_OLED, SCL_OLED, RST_OLED);
+
+void showConnecting(void)
+{
+  display.clear();
+  display.drawString(0, 0, "Connecting...");
+  display.display();
+}
 
 void delayBlink(int duration_millis)
 {

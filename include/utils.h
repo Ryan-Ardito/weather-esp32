@@ -5,6 +5,8 @@
 #include "Arduino.h"
 #include "weathertypes.h"
 
+String getStateFullName(const String& stateCode);
+String expandCityStateString(const String& cityState);
 WeatherInfo parseJsonInfo(String payload);
 
 #endif

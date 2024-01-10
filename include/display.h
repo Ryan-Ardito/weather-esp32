@@ -5,6 +5,7 @@
 #include "Arduino.h"
 #include "weathertypes.h"
 
+void showConnecting(void);
 void delayBlink(int duration_millis);
 void LedON(void);
 void VextON(void);
