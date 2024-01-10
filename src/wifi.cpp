@@ -46,7 +46,10 @@ void setupWifiConfig(void)
   wm.setWiFiAutoReconnect(true);
   // wm.setConfigPortalTimeout(180);
 
-  const char *location = readLocation().c_str();
+  // const char *location = readLocation().c_str(); doesn't work lol
+  String loc = readLocation();
+  const char *location = loc.c_str();
+
   // id/name, placeholder/prompt, default, length
   WiFiManagerParameter location_param("location", "city, state", location, 40);
 

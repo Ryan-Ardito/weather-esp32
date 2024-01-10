@@ -5,6 +5,7 @@
 
 #include "weathertypes.h"
 
+// chatGPT
 String getStateFullName(const String &stateCode)
 {
   // Define a mapping of 2-letter state codes to their full names
@@ -59,7 +60,6 @@ String getStateFullName(const String &stateCode)
       {"wv", "west Virginia"},
       {"wi", "wisconsin"},
       {"wy", "wyoming"}
-      // Add more state codes and names as needed
   };
 
   // Convert the input state code to lowercase for case-insensitive comparison

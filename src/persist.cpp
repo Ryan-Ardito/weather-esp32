@@ -20,7 +20,6 @@ String readFile(fs::FS &fs, const char *path)
     fileContent += String((char)file.read());
   }
   file.close();
-  Serial.println(fileContent);
   return fileContent;
 }
 
@@ -56,7 +55,8 @@ String readLocation(void)
     Serial.println("LittleFS mount success");
   }
 
-  return readFile(LittleFS, "/location.txt");
+  String location = readFile(LittleFS, "/location.txt");
+  return location;
 }
 
 Coords readCoords(void)
