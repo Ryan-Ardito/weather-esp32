@@ -2,9 +2,10 @@
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 #include "weathertypes.h"
+#include "secrets.h"
 
 const String owm_base_url = "https://api.openweathermap.org/data/2.5/weather";
-const String apikey = "9301cc18f16f719750a35990eb761e9e";
+const String apikey = OWM_API_KEY;
 
 String apiGet(String url)
 {
