@@ -6,13 +6,24 @@
 
 SSD1306Wire display(0x3c, SDA_OLED, SCL_OLED, RST_OLED);
 
+void showInvalidLocation(void)
+{
+  display.clear();
+  display.setFont(ArialMT_Plain_10);
+  display.drawString(0, 0, "Invalid location!");
+  display.drawString(0, 12, "rebooting...");
+  display.display();
+}
+
 void showConnecting(void)
 {
   display.clear();
+  display.setFont(ArialMT_Plain_10);
   display.drawString(0, 0, "Connecting...");
   display.display();
 }
 
+// Turn LED on then off with a delay.
 void delayBlink(int duration_millis)
 {
   digitalWrite(LED_BUILTIN, HIGH);
@@ -25,6 +36,12 @@ void LedON(void)
 {
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, HIGH);
+}
+
+void LedOFF(void)
+{
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, LOW);
 }
 
 void VextON(void)

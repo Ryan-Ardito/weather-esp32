@@ -28,6 +28,21 @@ void configModeCallback(WiFiManager *myWiFiManager)
   Serial.println(myWiFiManager->getConfigPortalSSID());
 }
 
+bool saveLocation(const char *new_location)
+{
+  String expanded_location = expandCityStateString(new_location);
+  Coords coords = fetchLatLon(expanded_location);
+  // janky
+  if (coords.lat == String("err"))
+  {
+    return false;
+  }
+  String coords_string = String(coords.lat + "," + coords.lon);
+  writeFile(LittleFS, "/location.txt", new_location);
+  writeFile(LittleFS, "/coords.txt", coords_string.c_str());
+  return true;
+}
+
 void setupWifiConfig(void)
 {
   WiFi.mode(WIFI_STA);
@@ -46,17 +61,15 @@ void setupWifiConfig(void)
   wm.setWiFiAutoReconnect(true);
   // wm.setConfigPortalTimeout(180);
 
-  // const char *location = readLocation().c_str(); doesn't work lol
-  String loc = readLocation();
-  const char *location = loc.c_str();
-
-  // id/name, placeholder/prompt, default, length
-  WiFiManagerParameter location_param("location", "city, state", location, 40);
-
-  wm.addParameter(&location_param);
-
   std::vector<const char *> menu = {"wifi"};
   wm.setMenu(menu);
+
+  // const char *location = readLocation().c_str();  // doesn't work lol
+  String loc = readLocation();
+  const char *location = loc.c_str();
+  // id/name, placeholder/prompt, default, length
+  WiFiManagerParameter location_param("location", "city, state", location, 40);
+  wm.addParameter(&location_param);
 
   showConnecting();
   if (force_config)
@@ -79,10 +92,11 @@ void setupWifiConfig(void)
   auto new_location = location_param.getValue();
   if (should_save_config && new_location != location)
   {
-    writeFile(LittleFS, "/location.txt", new_location);
-    String expanded_location = expandCityStateString(new_location);
-    Coords coords = fetchLatLon(expanded_location);
-    String coords_string = String(coords.lat + "," + coords.lon);
-    writeFile(LittleFS, "/coords.txt", coords_string.c_str());
+    if (!saveLocation(new_location))
+    {
+      showInvalidLocation();
+      delay(5000);
+      ESP.restart();
+    }
   }
 }

@@ -32,13 +32,19 @@ String apiGet(String url)
 
 Coords fetchLatLon(String city_state)
 {
+  Coords coords;
   String url = String("http://api.openweathermap.org/geo/1.0/direct?q=" + city_state + ",us" + "&limit=5&appid=" + apikey);
   String json = apiGet(url);
+  // janky
+  if (json == String("[]"))
+  {
+    coords.lat = String("err");
+    return coords;
+  }
   JsonDocument doc;
   const auto err = deserializeJson(doc, json);
   String lat = doc[0]["lat"];
   String lon = doc[0]["lon"];
-  Coords coords;
   coords.lat = lat;
   coords.lon = lon;
 

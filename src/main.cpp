@@ -1,4 +1,3 @@
-// TODO: Invalid location string should notify the user and restart the config AP.
 // TODO: User can start the config AP manually
 
 #include "Arduino.h"
@@ -14,17 +13,16 @@
 const int kSerialBaudRate = 115200;
 const int kRequestIntervalMillis = 10 * 60 * 1000;
 
-// Latitude and longitude to send to weather API
+// Latitude and longitude sent to weather API
 Coords coords;
 
 void setup()
 {
-  Serial.begin(kSerialBaudRate);
-
   LedON();
+  Serial.begin(kSerialBaudRate);
+  Serial.println("Booting...");
   VextON();
   delay(100);
-
   SetupDisplay();
   setupWifiConfig();
 
@@ -38,11 +36,11 @@ void loop()
     delayBlink(500);
   }
 
-  digitalWrite(LED_BUILTIN, HIGH);
+  LedON();
   String info_json = fetchWeatherInfo(coords);
   WeatherInfo info = parseJsonInfo(info_json);
-  digitalWrite(LED_BUILTIN, LOW);
   displayWeather(info);
+  LedOFF();
 
   delay(kRequestIntervalMillis);
 }
